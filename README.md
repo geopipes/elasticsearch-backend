@@ -50,7 +50,7 @@ var Backend = require('geopipes-elasticsearch-backend');
 
 var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
 
-elasticsearch.index({
+elasticsearch.put({
   'id': 'myid',
   'name': 'My POI',
   'center_point': {
