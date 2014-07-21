@@ -44,35 +44,58 @@ Backend.prototype.findAdminHeirachy = function( Object centroid, Object opts, Fu
 
 # Basic Usage
 
+You will need a little knowledge of elasticsearch schemas to build more advanced indexers; however this example should be enough to get you started.
+
 ```javascript
-var esclient = require('pelias-esclient');
+var esclient = require('pelias-esclient')();
 var Backend = require('geopipes-elasticsearch-backend');
 
-var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
+var elasticsearch = new Backend( esclient, 'example1', 'type1' );
 
-elasticsearch.put({
-  'id': 'myid',
-  'name': 'My POI',
-  'center_point': {
+// Create a basic geo schema
+var schema = {
+  mappings: {
+    type1: {
+      properties: {
+        name: { type : 'string' },
+        center_point: { type: 'geo_point', lat_lon: true }
+      }
+    }
+  }
+}
+
+// Create the schema
+esclient.indices.create( { index: 'example1', body: schema }, function( err, res ){
+
+  var opts = null;
+  var centroid = {
     'lat': 50.1,
     'lon': 100.45
-  }
-}, function( err, res ){
-  console.log( err, res );
-});
+  };
+  var doc = {
+    'name': 'My POI',
+    'center_point': centroid
+  };
 
-elasticsearch.reverseGeo({
-  'lat': 50.1,
-  'lon': 100.45
-}, function( err, res ){
-  console.log( err, res );
+  elasticsearch.put( 'myid', doc, opts, function( err, res ){
+    console.log( 'put', err, res );
+    elasticsearch.reverseGeo( centroid, opts, function( err, res ){
+      console.log( 'reverse geosearch', err, res );
+    });
+  });
+
 });
 ```
 
+You can view the indexed document here: http://localhost:9200/myindex/mytype/myid
+
 # Streaming Indexing
 
+Note: the streaming library flushes in batches so you may need to wait
+a few seconds for the batch to be flushed.
+
 ```javascript
-var esclient = require('pelias-esclient');
+var esclient = require('pelias-esclient')();
 var Backend = require('geopipes-elasticsearch-backend');
 
 var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
@@ -87,6 +110,8 @@ stream.write({
   }
 });
 ```
+
+You can view the indexed document here: http://localhost:9200/myindex/mytype/myid
 
 ## NPM Module
 
