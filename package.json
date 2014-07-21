@@ -1,7 +1,7 @@
 {
   "name": "geopipes-elasticsearch-backend",
   "author": "mapzen",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Elasticsearch backend with supoprt for streaming bulk indexing",
   "homepage": "https://github.com/geopipes/elasticsearch-backend",
   "license": "MIT",
