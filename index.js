@@ -1,7 +1,8 @@
 
-var createBulkIndexStream = require('./bulkIndexStream'),
-    reverseGeoQuery = require('./query/geo_distance'),
-    extractor = {    
+var merge                   = require('merge'),
+    createBulkIndexStream   = require('./bulkIndexStream'),
+    reverseGeoQuery         = require('./query/geo_distance'),
+    extractor = {
       fields: require('./extractor/fields'),
       mget:   require('./extractor/mget'),
       search: require('./extractor/search'),
@@ -61,14 +62,14 @@ Backend.prototype.createPullStream = function(){
 
 // Find the nearest document to the supplied centroid
 Backend.prototype.reverseGeo = function( centroid, opts, cb ){
-  var query = reverseGeoQuery( centroid, { size: 1 } );
+  var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
   this.search( query, opts, cb );
 }
 
 // Perform a fields only reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   var fields = [ 'admin0', 'admin1', 'admin2' ];
-  var query = reverseGeoQuery( centroid, { size: 1 } );
+  var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
   query.fields = fields; // Only return fields related to admin hierarchy
   this._search( query, opts, extractor.fields( fields, cb ) );
 }
