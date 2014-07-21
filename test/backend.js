@@ -1,7 +1,7 @@
 
 var Backend = require('../');
 
-module.exports.interface = {};
+module.exports.backend = {};
 
 function mockClient( cb ){
   return {
@@ -13,7 +13,7 @@ function mockClient( cb ){
   }
 }
 
-module.exports.interface.get = function(test, common) {
+module.exports.backend.get = function(test, common) {
   test('get()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -31,7 +31,7 @@ module.exports.interface.get = function(test, common) {
   });
 }
 
-module.exports.interface.mget = function(test, common) {
+module.exports.backend.mget = function(test, common) {
   test('mget()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -49,7 +49,7 @@ module.exports.interface.mget = function(test, common) {
   });
 }
 
-module.exports.interface.put = function(test, common) {
+module.exports.backend.put = function(test, common) {
   test('put()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -67,7 +67,7 @@ module.exports.interface.put = function(test, common) {
   });
 }
 
-module.exports.interface.search = function(test, common) {
+module.exports.backend.search = function(test, common) {
   test('search()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -85,7 +85,7 @@ module.exports.interface.search = function(test, common) {
   });
 }
 
-module.exports.interface.createPullStream = function(test, common) {
+module.exports.backend.createPullStream = function(test, common) {
   test('createPullStream()', function(t) {
     var backend = new Backend( function(){}, 'foo', 'bar' );
     var stream = backend.createPullStream();
@@ -95,7 +95,7 @@ module.exports.interface.createPullStream = function(test, common) {
   });
 }
 
-module.exports.interface.reverseGeo = function(test, common) {
+module.exports.backend.reverseGeo = function(test, common) {
   test('reverseGeo()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -127,7 +127,7 @@ module.exports.interface.reverseGeo = function(test, common) {
 }
 
 
-module.exports.interface.findAdminHeirachy = function(test, common) {
+module.exports.backend.findAdminHeirachy = function(test, common) {
   test('findAdminHeirachy()', function(t) {
 
     var client = mockClient( function( method, query, cb ){
@@ -161,10 +161,10 @@ module.exports.interface.findAdminHeirachy = function(test, common) {
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('external interface: ' + name, testFunction)
+    return tape('backend: ' + name, testFunction)
   }
 
-  for( var testCase in module.exports.interface ){
-    module.exports.interface[testCase](test, common);
+  for( var testCase in module.exports.backend ){
+    module.exports.backend[testCase](test, common);
   }
 }
