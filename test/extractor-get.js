@@ -1,6 +1,6 @@
 
-var extractor = require('../extractor/search');
-var fixtures = { search: require('./fixtures/searchQuery') }
+var extractor = require('../extractor/get');
+var fixtures = { get: require('./fixtures/getQuery') }
 
 module.exports.extractor = {};
 
@@ -40,20 +40,19 @@ module.exports.extractor.respNoHits = function(test, common) {
   });
 }
 
-// Mapped all results
-module.exports.extractor.respGotHits = function(test, common) {
+// Returned single result
+module.exports.extractor.respGotHit = function(test, common) {
   test('resp: respGotHits', function(t) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
-      t.equal(Array.isArray(resp), true, 'array returned');
-      t.equal(resp.length, 10, 'array contains 1 record');
-      t.equal(resp[0].type, 'node', 'field returned');
-      t.equal(resp[0].center_point.lat, 33.5169579, 'field returned');
-      t.equal(resp[0].center_point.lon, 36.2217176, 'field returned');
+      t.equal(typeof resp, 'object', 'object returned');
+      t.equal(resp.type, 'node', 'field returned');
+      t.equal(resp.center_point.lat, 33.5169579, 'field returned');
+      t.equal(resp.center_point.lon, 36.2217176, 'field returned');
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');
-    proxy( null, fixtures.search );
+    proxy( null, fixtures.get );
   });
 }
 

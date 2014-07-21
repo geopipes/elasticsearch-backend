@@ -4,7 +4,8 @@ var createBulkIndexStream = require('./bulkIndexStream'),
     extractor = {    
       fields: require('./extractor/fields'),
       mget:   require('./extractor/mget'),
-      search: require('./extractor/search')
+      search: require('./extractor/search'),
+      get:    require('./extractor/get')
     };
 
 function Backend( client, index, type ){
@@ -18,10 +19,7 @@ Backend.prototype.get = function( key, opts, cb ){
     index: this._index,
     type: this._type,
     id: key
-  }, function(err, res) {
-    // reduce response/error to a common format
-    return cb(err, res);
-  });
+  }, extractor.get( cb ) );
 }
 
 Backend.prototype.mget = function( ids, opts, cb ){
