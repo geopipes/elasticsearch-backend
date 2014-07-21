@@ -5,8 +5,7 @@ An Elasticsearch Backend with support for Streaming Bulk Indexing
 # Installation
 
 ```bash
-$ npm install -g geopipes-elasticsearch-backend
-$ ciao --help
+$ npm install geopipes-elasticsearch-backend
 ```
 
 [![NPM](https://nodei.co/npm/geopipes-elasticsearch-backend.png?downloads=true&stars=true)](https://nodei.co/npm/geopipes-elasticsearch-backend)
