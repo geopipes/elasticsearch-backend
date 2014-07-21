@@ -1,5 +1,6 @@
 
-var DEBUG = false;
+var debug = require('./_debug');
+// debug.enabled = true;
 
 function fieldsExtractor( fields, cb ){
 
@@ -13,12 +14,7 @@ function fieldsExtractor( fields, cb ){
   var extractor = function( error, resp ){
 
     // Response logger
-    if( DEBUG ){
-      if( resp && resp.hasOwnProperty('took') ){
-        console.error( 'response time:', resp.took + 'ms' );
-      }
-      console.error( JSON.stringify( resp, null, 2 ) );
-    }
+    debug.resp( resp );
 
     // Handle errors from the es client
     if( error ) return cb( error );

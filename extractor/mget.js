@@ -1,5 +1,6 @@
 
-var DEBUG = false;
+var debug = require('./_debug');
+// debug.enabled = true;
 
 function mgetExtractor( cb ){
 
@@ -7,12 +8,7 @@ function mgetExtractor( cb ){
   var extractor = function( error, resp ){
 
     // Response logger
-    if( DEBUG ){
-      if( resp && resp.hasOwnProperty('took') ){
-        console.error( 'response time:', resp.took + 'ms' );
-      }
-      console.error( JSON.stringify( resp, null, 2 ) );
-    }
+    debug.resp( resp );
 
     // Handle errors from the es client
     if( error ) return cb( error );
@@ -26,9 +22,7 @@ function mgetExtractor( cb ){
       });
 
       if( invalid ){
-        if( DEBUG ){
-          console.error( 'mgetExtractor: one or more node ids not found', resp.docs );
-        }
+        debug.message( 'mgetExtractor: one or more node ids not found', resp.docs );
         return cb( 'one or more node ids not found' );
       }
 
