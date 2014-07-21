@@ -87,7 +87,7 @@ esclient.indices.create( { index: 'example1', body: schema }, function( err, res
 });
 ```
 
-You can view the indexed document here: http://localhost:9200/myindex/mytype/myid
+You can view the indexed document here: [http://localhost:9200/example1/type1/myid](http://localhost:9200/example1/type1/myid)
 
 # Streaming Indexing
 
@@ -98,7 +98,7 @@ a few seconds for the batch to be flushed.
 var esclient = require('pelias-esclient')();
 var Backend = require('geopipes-elasticsearch-backend');
 
-var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
+var elasticsearch = new Backend( esclient, 'example2', 'type1' );
 var stream = elasticsearch.createPullStream();
 
 stream.write({
@@ -111,7 +111,7 @@ stream.write({
 });
 ```
 
-You can view the indexed document here: http://localhost:9200/myindex/mytype/myid
+You can view the indexed document here: [http://localhost:9200/example2/type1/myid](http://localhost:9200/example2/type1/myid)
 
 ## NPM Module
 
