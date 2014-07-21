@@ -10,7 +10,7 @@ function fieldsExtractor( fields, cb ){
   }
 
   // es callback
-  return function( error, resp ){
+  var extractor = function( error, resp ){
 
     // Response logger
     if( DEBUG ){
@@ -46,11 +46,9 @@ function fieldsExtractor( fields, cb ){
         // Return field data
         else {
           var output = {};
-          fields.forEach( function( field ){
-            if( hitFields[field] ){
-              output[field] = hitFields[field][0];
-            }
-          });
+          for( var field in hitFields ){
+            output[field] = hitFields[field][0];
+          }
           if( Object.keys( output ).length ){
             results.push( output );
           }
@@ -62,10 +60,10 @@ function fieldsExtractor( fields, cb ){
 
     // The query returned 0 results
     else return cb();
-   
     return cb( 'an unexpected error occured' );
-
   }
+
+  return extractor;
 }
 
 module.exports = fieldsExtractor;

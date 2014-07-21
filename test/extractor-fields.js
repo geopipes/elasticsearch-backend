@@ -23,6 +23,15 @@ module.exports.extractor.invalidFields = function(test, common) {
     t.equal(typeof proxy, 'function', 'function returned');
     proxy();
   });
+  test('constructor: invalidCallback', function(t) {
+    var proxy = extractor( ['foo'] );
+    t.equal(typeof proxy, 'function', 'function returned');
+    try { proxy(); }
+    catch (e){
+      t.equal(e.message, 'undefined is not a function', 'exception thrown');
+      t.end();
+    }
+  });
 }
 
 module.exports.extractor.respEmitsError = function(test, common) {

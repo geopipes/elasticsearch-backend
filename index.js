@@ -1,7 +1,8 @@
 
 var createBulkIndexStream = require('./bulkIndexStream'),
     reverseGeoQuery = require('./query/geo_distance'),
-    fieldsExtractor = require('./extractor/fields');
+    fieldsExtractor = require('./extractor/fields'),
+    mgetExtractor = require('./extractor/mget');
 
 function Backend( client, index, type ){
   this.client = client;
@@ -26,11 +27,8 @@ Backend.prototype.mget = function( ids, opts, cb ){
     type: this._type,
     body: {
       ids: ids
-    } 
-  }, function(err, res) {
-    // reduce response/error to a common format
-    return cb(err, res);
-  });
+    }
+  }, mgetExtractor( cb ) );
 }
 
 Backend.prototype.put = function( key, val, opts, cb ){

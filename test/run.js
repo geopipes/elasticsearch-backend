@@ -5,7 +5,8 @@ var common = {};
 
 var tests = [
   require('./interface.js'),
-  require('./extractor-fields.js')
+  require('./extractor-fields.js'),
+  require('./extractor-mget.js')
 ];
 
 tests.map(function(t) {
