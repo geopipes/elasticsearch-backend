@@ -1,13 +1,10 @@
 
-var extractor = require('../extractor/mget');
-var fixtures = {
-  mget: require('./fixtures/mgetQuery'),
-  failed: require('./fixtures/mgetFailedQuery')
-}
+var extractor = require('../extractor/search');
+var fixtures = { search: require('./fixtures/searchQuery') }
 
 module.exports.extractor = {};
 
-module.exports.extractor.invalidMget = function(test, common) {
+module.exports.extractor.invalidSearch = function(test, common) {
   test('constructor: invalidCallback', function(t) {
     var proxy = extractor();
     t.equal(typeof proxy, 'function', 'function returned');
@@ -43,38 +40,41 @@ module.exports.extractor.respNoHits = function(test, common) {
   });
 }
 
-module.exports.extractor.respContainedSomeMissedGets = function(test, common) {
-  test('resp: respGotHits', function(t) {
-    var proxy = extractor( function( err, resp ){
-      t.equal(err, 'one or more node ids not found', 'no error emitted');
-      t.end();
-    });
-    t.equal(typeof proxy, 'function', 'function returned');
-    proxy( null, fixtures.failed );
-  });
-}
-
-// Matched all mget
-module.exports.extractor.respCompletedSuccessfully = function(test, common) {
+// Failed to find any fields matching 'foo'
+module.exports.extractor.respGotHits = function(test, common) {
   test('resp: respGotHits', function(t) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
       t.equal(Array.isArray(resp), true, 'array returned');
-      t.equal(resp.length, 19, 'array contains 1 record');
-      t.equal(resp[0].type, 'node', 'field returned');
-      t.equal(resp[0].center_point.lat, 33.5060419, 'field returned');
-      t.equal(resp[0].center_point.lon, 36.2884532, 'field returned');
+      t.equal(resp.length, 0, 'array contains 0 records');
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');
-    proxy( null, fixtures.mget );
+    proxy( null, fixtures.search );
+  });
+}
+
+// Matched all fields
+module.exports.extractor.respGotHits = function(test, common) {
+  test('resp: respGotHits', function(t) {
+    var proxy = extractor( function( err, resp ){
+      t.equal(err, undefined, 'no error emitted');
+      t.equal(Array.isArray(resp), true, 'array returned');
+      t.equal(resp.length, 10, 'array contains 1 record');
+      t.equal(resp[0].type, 'node', 'field returned');
+      t.equal(resp[0].center_point.lat, 33.5169579, 'field returned');
+      t.equal(resp[0].center_point.lon, 36.2217176, 'field returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.search );
   });
 }
 
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('mget extractor: ' + name, testFunction)
+    return tape('search extractor: ' + name, testFunction)
   }
 
   for( var testCase in module.exports.extractor ){

@@ -1,8 +1,11 @@
 
 var createBulkIndexStream = require('./bulkIndexStream'),
     reverseGeoQuery = require('./query/geo_distance'),
-    fieldsExtractor = require('./extractor/fields'),
-    mgetExtractor = require('./extractor/mget');
+    extractor = {    
+      fields: require('./extractor/fields'),
+      mget:   require('./extractor/mget'),
+      search: require('./extractor/search')
+    };
 
 function Backend( client, index, type ){
   this.client = client;
@@ -28,7 +31,7 @@ Backend.prototype.mget = function( ids, opts, cb ){
     body: {
       ids: ids
     }
-  }, mgetExtractor( cb ) );
+  }, extractor.mget( cb ) );
 }
 
 Backend.prototype.put = function( key, val, opts, cb ){
@@ -44,10 +47,7 @@ Backend.prototype.put = function( key, val, opts, cb ){
 }
 
 Backend.prototype.search = function( query, opts, cb ){
-  this._search( query, opts, function(err, res) {
-    // reduce response/error to a common format
-    return cb(err, res);
-  });
+  this._search( query, opts, extractor.search( cb ) );
 }
 
 // Search which returns the body as returned by es
@@ -72,7 +72,7 @@ Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   var fields = [ 'admin0', 'admin1', 'admin2' ];
   var query = reverseGeoQuery( centroid, { size: 1 } );
   query.fields = fields; // Only return fields related to admin hierarchy
-  this._search( query, opts, fieldsExtractor( fields, cb ) );
+  this._search( query, opts, extractor.fields( fields, cb ) );
 }
 
 module.exports = Backend;
