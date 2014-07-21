@@ -8,7 +8,8 @@ var tests = [
   require('./extractor-fields.js'),
   require('./extractor-mget.js'),
   require('./extractor-search.js'),
-  require('./extractor-get.js')
+  require('./extractor-get.js'),
+  require('./extractor-put.js')
 ];
 
 tests.map(function(t) {

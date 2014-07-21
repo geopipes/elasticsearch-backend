@@ -5,7 +5,8 @@ var createBulkIndexStream = require('./bulkIndexStream'),
       fields: require('./extractor/fields'),
       mget:   require('./extractor/mget'),
       search: require('./extractor/search'),
-      get:    require('./extractor/get')
+      get:    require('./extractor/get'),
+      put:    require('./extractor/put')
     };
 
 function Backend( client, index, type ){
@@ -38,17 +39,14 @@ Backend.prototype.put = function( key, val, opts, cb ){
     type: this._type,
     id: key,
     body: val
-  }, function(err, res) {
-    // reduce response/error to a common format
-    return cb(err, res);
-  });
+  }, extractor.put( cb ) );
 }
 
 Backend.prototype.search = function( query, opts, cb ){
   this._search( query, opts, extractor.search( cb ) );
 }
 
-// Search which returns the body as returned by es
+// A private search method which returns the raw result from ES
 Backend.prototype._search = function( query, opts, cb ){
   this.client.search({
     index: this._index,
@@ -66,6 +64,7 @@ Backend.prototype.createPullStream = function(){
 //   this.search( query, cb );
 // }
 
+// Perform a reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   var fields = [ 'admin0', 'admin1', 'admin2' ];
   var query = reverseGeoQuery( centroid, { size: 1 } );

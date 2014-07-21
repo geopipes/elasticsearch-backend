@@ -1,6 +1,6 @@
 
 var extractor = require('../extractor/get');
-var fixtures = { get: require('./fixtures/getQuery') }
+var fixtures = require('./fixtures/_index');
 
 module.exports.extractor = {};
 
@@ -53,6 +53,18 @@ module.exports.extractor.respGotHit = function(test, common) {
     });
     t.equal(typeof proxy, 'function', 'function returned');
     proxy( null, fixtures.get );
+  });
+}
+
+module.exports.extractor.genericFailure = function(test, common) {
+  test('resp: genericFailure', function(t) {
+    var proxy = extractor( function( err, resp ){
+      t.equal(err, fixtures.genericfail.error, 'error emitted');
+      t.equal(resp, undefined, 'no results returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.genericfail );
   });
 }
 

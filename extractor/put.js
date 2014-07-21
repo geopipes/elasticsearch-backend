@@ -2,7 +2,7 @@
 var debug = require('./_debug');
 // debug.enabled = true;
 
-function getExtractor( cb ){
+function putExtractor( cb ){
 
   // es callback
   var extractor = function( error, resp ){
@@ -16,17 +16,16 @@ function getExtractor( cb ){
     // Handle errors returned in the body
     if( 'object' == typeof resp && resp.hasOwnProperty('error') ) return cb( resp.error );
 
-    // Check the response is valid ang contains at least one records
-    else if( 'object' == typeof resp && resp.hasOwnProperty('_source') ){
-      return cb( undefined, resp._source );
+    // Put operation succeeded
+    else if( 'object' == typeof resp && resp.created === true && resp.hasOwnProperty('_id') ){
+      return cb( undefined, resp._id );
     }
 
-    // The query returned 0 results
-    else return cb();
-    return cb( 'an unexpected error occured' );
+    // Put operation failed
+    else return cb( undefined, false );
   }
 
   return extractor;
 }
 
-module.exports = getExtractor;
+module.exports = putExtractor;

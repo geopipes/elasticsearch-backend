@@ -1,9 +1,6 @@
 
 var extractor = require('../extractor/mget');
-var fixtures = {
-  mget: require('./fixtures/mgetQuery'),
-  failed: require('./fixtures/mgetFailedQuery')
-}
+var fixtures = require('./fixtures/_index');
 
 module.exports.extractor = {};
 
@@ -50,7 +47,7 @@ module.exports.extractor.respContainedSomeMissedGets = function(test, common) {
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');
-    proxy( null, fixtures.failed );
+    proxy( null, fixtures.failedmget );
   });
 }
 
@@ -68,6 +65,18 @@ module.exports.extractor.respCompletedSuccessfully = function(test, common) {
     });
     t.equal(typeof proxy, 'function', 'function returned');
     proxy( null, fixtures.mget );
+  });
+}
+
+module.exports.extractor.genericFailure = function(test, common) {
+  test('resp: genericFailure', function(t) {
+    var proxy = extractor( function( err, resp ){
+      t.equal(err, fixtures.genericfail.error, 'error emitted');
+      t.equal(resp, undefined, 'no results returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.genericfail );
   });
 }
 

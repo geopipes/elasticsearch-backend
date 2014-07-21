@@ -1,10 +1,10 @@
 
-var extractor = require('../extractor/search');
+var extractor = require('../extractor/put');
 var fixtures = require('./fixtures/_index');
 
 module.exports.extractor = {};
 
-module.exports.extractor.invalidSearch = function(test, common) {
+module.exports.extractor.invalidPut = function(test, common) {
   test('constructor: invalidCallback', function(t) {
     var proxy = extractor();
     t.equal(typeof proxy, 'function', 'function returned');
@@ -28,32 +28,37 @@ module.exports.extractor.respEmitsError = function(test, common) {
   });
 }
 
-module.exports.extractor.respNoHits = function(test, common) {
-  test('resp: respNoHits', function(t) {
+module.exports.extractor.respFail = function(test, common) {
+  test('resp: respFail', function(t) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
-      t.equal(resp, undefined, 'no result returned');
+      t.equal(resp, false, 'put operation failed');
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');
     proxy(); // no hits
   });
-}
-
-// Mapped all results
-module.exports.extractor.respGotHits = function(test, common) {
-  test('resp: respGotHits', function(t) {
+  test('resp: respFail', function(t) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
-      t.equal(Array.isArray(resp), true, 'array returned');
-      t.equal(resp.length, 10, 'array contains 1 record');
-      t.equal(resp[0].type, 'node', 'field returned');
-      t.equal(resp[0].center_point.lat, 33.5169579, 'field returned');
-      t.equal(resp[0].center_point.lon, 36.2217176, 'field returned');
+      t.equal(resp, false, 'put operation failed');
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');
-    proxy( null, fixtures.search );
+    proxy( undefined, { created: false } ); // fail
+  });
+}
+
+module.exports.extractor.respSuccess = function(test, common) {
+  test('resp: respSuccess', function(t) {
+    var proxy = extractor( function( err, resp ){
+      t.equal(err, undefined, 'no error emitted');
+      t.equal(typeof resp, 'string', 'id returned');
+      t.equal(resp, '1', 'new id returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.put );
   });
 }
 
@@ -72,7 +77,7 @@ module.exports.extractor.genericFailure = function(test, common) {
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('search extractor: ' + name, testFunction)
+    return tape('put extractor: ' + name, testFunction)
   }
 
   for( var testCase in module.exports.extractor ){

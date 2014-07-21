@@ -1,27 +1,27 @@
 
 var extractor = require('../extractor/fields');
-var fixtures = { fields: require('./fixtures/fieldsQuery') }
+var fixtures = require('./fixtures/_index');
 
 module.exports.extractor = {};
 
 module.exports.extractor.invalidFields = function(test, common) {
   test('constructor: invalidFields', function(t) {
-    var proxy = extractor( null, function( err, resp ){
-      t.equal(typeof err, 'string', 'error emitted');
-      t.equal(err, 'invalid fields supplied', err);
+    try {
+      var proxy = extractor( null, function(){} );
+    }
+    catch (e){
+      t.equal(e.message, 'invalid fields supplied', 'exception thrown');
       t.end();
-    });
-    t.equal(typeof proxy, 'function', 'function returned');
-    proxy();
+    }
   });
   test('constructor: emptyFields', function(t) {
-    var proxy = extractor( [], function( err, resp ){
-      t.equal(typeof err, 'string', 'error emitted');
-      t.equal(err, 'invalid fields supplied', err);
+    try {
+      var proxy = extractor( [], function(){} );
+    }
+    catch (e){
+      t.equal(e.message, 'invalid fields supplied', 'exception thrown');
       t.end();
-    });
-    t.equal(typeof proxy, 'function', 'function returned');
-    proxy();
+    }
   });
   test('constructor: invalidCallback', function(t) {
     var proxy = extractor( ['foo'] );
@@ -86,6 +86,18 @@ module.exports.extractor.respGotHits = function(test, common) {
     });
     t.equal(typeof proxy, 'function', 'function returned');
     proxy( null, fixtures.fields );
+  });
+}
+
+module.exports.extractor.genericFailure = function(test, common) {
+  test('resp: genericFailure', function(t) {
+    var proxy = extractor( ['foo'], function( err, resp ){
+      t.equal(err, fixtures.genericfail.error, 'error emitted');
+      t.equal(resp, undefined, 'no results returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.genericfail );
   });
 }
 

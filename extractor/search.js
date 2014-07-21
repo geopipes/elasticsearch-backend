@@ -13,6 +13,9 @@ function searchExtractor( cb ){
     // Handle errors from the es client
     if( error ) return cb( error );
 
+    // Handle errors returned in the body
+    if( 'object' == typeof resp && resp.hasOwnProperty('error') ) return cb( resp.error );
+
     // Check the response is valid ang contains at least one records
     else if( 'object' == typeof resp && resp.hasOwnProperty('hits') && 
         Array.isArray( resp.hits.hits ) && resp.hits.hits.length ){
