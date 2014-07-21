@@ -51,6 +51,14 @@ module.exports.interface.findAdminHeirachy = function(test, common) {
   });
 }
 
+module.exports.interface.reverseGeo = function(test, common) {
+  test('reverseGeo()', function(t) {
+    t.equal(typeof Backend.prototype.reverseGeo, 'function', 'valid function');
+    t.equal(Backend.prototype.reverseGeo.length, 3, 'consistent arguments length');
+    t.end();
+  });
+}
+
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {

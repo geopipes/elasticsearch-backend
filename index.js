@@ -59,12 +59,13 @@ Backend.prototype.createPullStream = function(){
   return createBulkIndexStream( this.client, this._index, this._type );
 }
 
-// Backend.prototype.reverseGeo = function( centroid, cb ){
-//   var query = reverseGeoQuery( centroid );
-//   this.search( query, cb );
-// }
+// Find the nearest document to the supplied centroid
+Backend.prototype.reverseGeo = function( centroid, opts, cb ){
+  var query = reverseGeoQuery( centroid, { size: 1 } );
+  this.search( query, opts, cb );
+}
 
-// Perform a reverse geocode to retrieve the admin heirachy
+// Perform a fields only reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   var fields = [ 'admin0', 'admin1', 'admin2' ];
   var query = reverseGeoQuery( centroid, { size: 1 } );
