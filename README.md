@@ -40,9 +40,9 @@ Backend.prototype.reverseGeo = function( Object centroid, Object opts, Function 
 
 // Perform a fields only reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( Object centroid, Object opts, Function cb )
-``
+```
 
-# Usage
+# Basic Usage
 
 ```javascript
 var esclient = require('pelias-esclient');
@@ -51,7 +51,8 @@ var Backend = require('geopipes-elasticsearch-backend');
 var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
 
 elasticsearch.index({
-  'name': 'My POI'
+  'id': 'myid',
+  'name': 'My POI',
   'center_point': {
     'lat': 50.1,
     'lon': 100.45
@@ -66,7 +67,26 @@ elasticsearch.reverseGeo({
 }, function( err, res ){
   console.log( err, res );
 });
-``
+```
+
+# Streaming Indexing
+
+```javascript
+var esclient = require('pelias-esclient');
+var Backend = require('geopipes-elasticsearch-backend');
+
+var elasticsearch = new Backend( esclient, 'myindex', 'mytype' );
+var stream = elasticsearch.createPullStream();
+
+stream.write({
+  'id': 'myid',
+  'name': 'My POI',
+  'center_point': {
+    'lat': 50.1,
+    'lon': 100.45
+  }
+});
+```
 
 ## NPM Module
 
