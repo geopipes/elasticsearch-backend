@@ -79,6 +79,9 @@ module.exports.extractor.respGotHits = function(test, common) {
       t.equal(err, undefined, 'no error emitted');
       t.equal(Array.isArray(resp), true, 'array returned');
       t.equal(resp.length, 1, 'array contains 1 record');
+      t.equal(resp[0]._id, '6289144', 'field returned');
+      t.equal(resp[0]._index, 'pelias', 'field returned');
+      t.equal(resp[0]._type, 'geoname', 'field returned');
       t.equal(resp[0].admin0, 'United Kingdom', 'field returned');
       t.equal(resp[0].admin1, 'England', 'field returned');
       t.equal(resp[0].admin2, 'Greater London', 'field returned');

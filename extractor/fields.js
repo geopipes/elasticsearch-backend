@@ -42,11 +42,15 @@ function fieldsExtractor( fields, cb ){
 
         // Return field data
         else {
-          var output = {};
+          var output = {
+            _index: hit._index,
+            _type: hit._type,
+            _id: hit._id
+          }
           for( var field in hitFields ){
             output[field] = hitFields[field][0];
           }
-          if( Object.keys( output ).length ){
+          if( Object.keys( output ).length > 3 ){
             results.push( output );
           }
         }

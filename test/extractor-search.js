@@ -47,6 +47,9 @@ module.exports.extractor.respGotHits = function(test, common) {
       t.equal(err, undefined, 'no error emitted');
       t.equal(Array.isArray(resp), true, 'array returned');
       t.equal(resp.length, 10, 'array contains 1 record');
+      t.equal(resp[0]._id, '551215562', 'field returned');
+      t.equal(resp[0]._index, 'pelias', 'field returned');
+      t.equal(resp[0]._type, 'osmnode', 'field returned');
       t.equal(resp[0].type, 'node', 'field returned');
       t.equal(resp[0].center_point.lat, 33.5169579, 'field returned');
       t.equal(resp[0].center_point.lon, 36.2217176, 'field returned');

@@ -18,7 +18,12 @@ function putExtractor( cb ){
 
     // Put operation succeeded
     else if( 'object' == typeof resp && resp.created === true && resp.hasOwnProperty('_id') ){
-      return cb( undefined, resp._id );
+      var output = {
+        _index: resp._index,
+        _type: resp._type,
+        _id: resp._id
+      }
+      return cb( undefined, output );
     }
 
     // Put operation failed

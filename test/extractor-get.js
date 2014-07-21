@@ -46,6 +46,9 @@ module.exports.extractor.respGotHit = function(test, common) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
       t.equal(typeof resp, 'object', 'object returned');
+      t.equal(resp._id, '551215562', 'field returned');
+      t.equal(resp._index, 'pelias', 'field returned');
+      t.equal(resp._type, 'osmnode', 'field returned');
       t.equal(resp.type, 'node', 'field returned');
       t.equal(resp.center_point.lat, 33.5169579, 'field returned');
       t.equal(resp.center_point.lon, 36.2217176, 'field returned');

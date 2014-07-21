@@ -53,8 +53,10 @@ module.exports.extractor.respSuccess = function(test, common) {
   test('resp: respSuccess', function(t) {
     var proxy = extractor( function( err, resp ){
       t.equal(err, undefined, 'no error emitted');
-      t.equal(typeof resp, 'string', 'id returned');
-      t.equal(resp, '1', 'new id returned');
+      t.equal(typeof resp, 'object', 'put operation success');
+      t.equal(resp._id, '1', 'field returned');
+      t.equal(resp._index, 'delme', 'field returned');
+      t.equal(resp._type, 'tweet', 'field returned');
       t.end();
     });
     t.equal(typeof proxy, 'function', 'function returned');

@@ -21,7 +21,11 @@ function searchExtractor( cb ){
         Array.isArray( resp.hits.hits ) && resp.hits.hits.length ){
 
       var results = resp.hits.hits.map( function( doc ){
-        return doc._source;
+        var source = doc._source;
+        source._index = doc._index;
+        source._type = doc._type;
+        source._id = doc._id;
+        return source;
       });
 
       return cb( undefined, results );

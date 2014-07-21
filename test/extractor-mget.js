@@ -58,6 +58,9 @@ module.exports.extractor.respCompletedSuccessfully = function(test, common) {
       t.equal(err, undefined, 'no error emitted');
       t.equal(Array.isArray(resp), true, 'array returned');
       t.equal(resp.length, 19, 'array contains 1 record');
+      t.equal(resp[0]._id, '34034714', 'field returned');
+      t.equal(resp[0]._index, 'pelias', 'field returned');
+      t.equal(resp[0]._type, 'osmnode', 'field returned');
       t.equal(resp[0].type, 'node', 'field returned');
       t.equal(resp[0].center_point.lat, 33.5060419, 'field returned');
       t.equal(resp[0].center_point.lon, 36.2884532, 'field returned');

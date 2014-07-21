@@ -18,7 +18,11 @@ function getExtractor( cb ){
 
     // Check the response is valid ang contains at least one records
     else if( 'object' == typeof resp && resp.hasOwnProperty('_source') ){
-      return cb( undefined, resp._source );
+      var source = resp._source;
+      source._index = resp._index;
+      source._type = resp._type;
+      source._id = resp._id;
+      return cb( undefined, source );
     }
 
     // The query returned 0 results
