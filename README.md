@@ -116,6 +116,7 @@ You can view the indexed document here: [http://localhost:9200/example2/type1/my
 ## NPM Module
 
 The `geopipes-elasticsearch-backend` npm module can be found here:
+
 [https://npmjs.org/package/ geopipes-elasticsearch-backend](https://npmjs.org/package/ geopipes-elasticsearch-backend)
 
 ## Contributing
