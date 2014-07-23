@@ -1,8 +1,4 @@
-# geopipes elasticsearch backend
-
-An Elasticsearch Backend with support for Streaming Bulk Indexing
-
-# Installation
+## Installation
 
 ```bash
 $ npm install geopipes-elasticsearch-backend
@@ -14,9 +10,7 @@ Note: you will need `node` and `npm` installed first.
 
 The easiest way to install `node.js` is with [nave.sh](https://github.com/isaacs/nave) by executing `[sudo] ./nave.sh usemain stable`
 
----
-
-# Interface
+## Interface
 
 ```javascript
 // Get a single record from elasticsearch
@@ -41,7 +35,7 @@ Backend.prototype.reverseGeo = function( Object centroid, Object opts, Function 
 Backend.prototype.findAdminHeirachy = function( Object centroid, Object opts, Function cb )
 ```
 
-# Basic Usage
+## Basic Usage
 
 You will need a little knowledge of elasticsearch schemas to build more advanced indexers; however this example should be enough to get you started.
 
@@ -88,7 +82,7 @@ esclient.indices.create( { index: 'example1', body: schema }, function( err, res
 
 You can view the indexed document here: [http://localhost:9200/example1/type1/myid](http://localhost:9200/example1/type1/myid)
 
-# Streaming Indexing
+## Streaming Indexing
 
 Note: the streaming library flushes in batches so you may need to wait
 a few seconds for the batch to be flushed.
