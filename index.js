@@ -70,7 +70,13 @@ Backend.prototype.reverseGeo = function( centroid, opts, cb ){
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   var fields = [ 'admin0', 'admin1', 'admin2' ];
   var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
-  query.fields = fields; // Only return fields related to admin hierarchy
+
+  // only include documents which contain valid admin values
+  query.query.filtered.filter.bool.must.unshift({ exists: { field: fields } });
+
+  // Only return fields related to admin hierarchy in results
+  query.fields = fields;
+
   this._search( query, opts, extractor.fields( fields, cb ) );
 }
 
