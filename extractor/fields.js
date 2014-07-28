@@ -27,7 +27,9 @@ function fieldsExtractor( fields, cb ){
       var results = [];
 
       // iterate through results
-      resp.hits.hits.forEach( function( hit ){
+      for( var x=0; x<resp.hits.hits.length; x++ ){
+
+        var hit = resp.hits.hits[x];
 
         // We only need the document fields
         var hitFields = hit.fields;
@@ -54,7 +56,7 @@ function fieldsExtractor( fields, cb ){
             results.push( output );
           }
         }
-      });
+      }
 
       return cb( undefined, results );
     }

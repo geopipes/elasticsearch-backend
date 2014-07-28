@@ -1,5 +1,6 @@
 module.exports = {
   fields:         require('./fieldsQuery'),
+  failedFields:   require('./fieldsFailedQuery'),
   get:            require('./getQuery'),
   mget:           require('./mgetQuery'),
   failedmget:     require('./mgetFailedQuery'),

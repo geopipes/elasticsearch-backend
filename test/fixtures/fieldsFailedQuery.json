@@ -1,0 +1,24 @@
+{
+  "took": 5,
+  "timed_out": false,
+  "_shards": {
+    "total": 30,
+    "successful": 30,
+    "failed": 0
+  },
+  "hits": {
+    "total": 6926,
+    "max_score": null,
+    "hits": [
+      {
+        "_index": "pelias",
+        "_type": "geoname",
+        "_id": "gn6301934",
+        "_score": null,
+        "sort": [
+          0.14347035177713602
+        ]
+      }
+    ]
+  }
+}

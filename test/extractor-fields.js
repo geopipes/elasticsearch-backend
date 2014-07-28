@@ -92,6 +92,18 @@ module.exports.extractor.respGotHits = function(test, common) {
   });
 }
 
+module.exports.extractor.respFailedHits = function(test, common) {
+  test('resp: respFailedHits', function(t) {
+    var proxy = extractor( ['admin0','admin1','admin2'], function( err, resp ){
+      t.equal(err, 'invalid fields returned', 'error emitted');
+      t.equal(resp, undefined, 'no results returned');
+      t.end();
+    });
+    t.equal(typeof proxy, 'function', 'function returned');
+    proxy( null, fixtures.failedFields );
+  });
+}
+
 module.exports.extractor.genericFailure = function(test, common) {
   test('resp: genericFailure', function(t) {
     var proxy = extractor( ['foo'], function( err, resp ){
