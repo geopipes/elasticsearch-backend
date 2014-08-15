@@ -1,7 +1,7 @@
 
 var through = require('through2');
 
-module.exports = function( esclient, index, type ){
+module.exports = function( index, type ){
 
   var stream = through.obj( function( item, enc, done ) {
 
@@ -16,10 +16,12 @@ module.exports = function( esclient, index, type ){
       delete item._type;
     }
 
-    esclient.stream.write({
+    this.push({
       _index: index, _type: estype, _id: id,
       data: item
-    }, done );
+    });
+
+    done();
 
   });
 

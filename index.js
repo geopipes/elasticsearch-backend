@@ -10,6 +10,8 @@ var merge                   = require('merge'),
       put:    require('./extractor/put')
     };
 
+var bun = require('bun');
+
 function Backend( client, index, type ){
   this.client = client;
   this._index = index;
@@ -57,7 +59,8 @@ Backend.prototype._search = function( query, opts, cb ){
 }
 
 Backend.prototype.createPullStream = function(){
-  return createBulkIndexStream( this.client, this._index, this._type );
+  var stream = createBulkIndexStream( this._index, this._type );
+  return bun([ stream, this.client.stream ]);
 }
 
 // Find the nearest document to the supplied centroid
