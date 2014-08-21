@@ -1,5 +1,6 @@
 
-var Backend = require('../');
+var Backend = require('../'),
+    through = require('through2');
 
 module.exports.backend = {};
 
@@ -87,7 +88,8 @@ module.exports.backend.search = function(test, common) {
 
 module.exports.backend.createPullStream = function(test, common) {
   test('createPullStream()', function(t) {
-    var backend = new Backend( function(){}, 'foo', 'bar' );
+    var client = { stream: through.obj(function(){}) };
+    var backend = new Backend( client, 'foo', 'bar' );
     var stream = backend.createPullStream();
     t.equal(typeof stream, 'object', 'stream valid');
     t.equal(typeof stream._readableState, 'object', 'stream valid');
