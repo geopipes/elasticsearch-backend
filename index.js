@@ -24,7 +24,7 @@ Backend.prototype.get = function( key, opts, cb ){
     type: this._type,
     id: key
   }, extractor.get( cb ) );
-}
+};
 
 Backend.prototype.mget = function( ids, opts, cb ){
   this.client.mget({
@@ -34,7 +34,7 @@ Backend.prototype.mget = function( ids, opts, cb ){
       ids: ids
     }
   }, extractor.mget( cb ) );
-}
+};
 
 Backend.prototype.put = function( key, val, opts, cb ){
   this.client.index({
@@ -43,11 +43,11 @@ Backend.prototype.put = function( key, val, opts, cb ){
     id: key,
     body: val
   }, extractor.put( cb ) );
-}
+};
 
 Backend.prototype.search = function( query, opts, cb ){
   this._search( query, opts, extractor.search( cb ) );
-}
+};
 
 // A private search method which returns the raw result from ES
 Backend.prototype._search = function( query, opts, cb ){
@@ -56,18 +56,18 @@ Backend.prototype._search = function( query, opts, cb ){
     type: this._type,
     body: query
   }, cb );
-}
+};
 
 Backend.prototype.createPullStream = function(){
   var stream = createBulkIndexStream( this._index, this._type );
   return bun([ stream, this.client.stream ]);
-}
+};
 
 // Find the nearest document to the supplied centroid
 Backend.prototype.reverseGeo = function( centroid, opts, cb ){
   var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
   this.search( query, opts, cb );
-}
+};
 
 // Perform a fields only reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
@@ -81,6 +81,6 @@ Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
   query.fields = fields;
 
   this._search( query, opts, extractor.fields( fields, cb ) );
-}
+};
 
 module.exports = Backend;
