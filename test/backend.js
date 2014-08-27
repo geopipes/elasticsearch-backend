@@ -169,7 +169,7 @@ module.exports.backend.findAdminHeirachy = function(test, common) {
 };
 
 module.exports.backend.findAdminHeirachyType = function(test, common) {
-  test('findAdminHeirachy() - distance type', function(t) {
+  test('findAdminHeirachy() - default type', function(t) {
     var client = mockClient( function( method, query, cb ){
       t.equal(method, 'search', 'search called');
       t.equal(typeof query, 'object', 'query generated');
@@ -180,6 +180,47 @@ module.exports.backend.findAdminHeirachyType = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.findAdminHeirachy( { lat: 1, lon: 1 }, null, function(){} );
   });
+
+  test('findAdminHeirachy() - distance type', function(t) {
+    var client = mockClient( function( method, query, cb ){
+      t.equal(method, 'search', 'search called');
+      t.equal(typeof query, 'object', 'query generated');
+      t.equal(typeof cb, 'function', 'callback provided');
+      t.ok(query.body.query.filtered.filter.bool.must[1].hasOwnProperty('geo_distance'), 'distance query');
+      t.end();
+    });
+    var backend = new Backend( client, 'foo', 'bar' );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'distance' }, function(){} );
+  });
+
+  test('findAdminHeirachy() - shape-point type', function(t) {
+    var client = mockClient( function( method, query, cb ){
+      t.equal(method, 'search', 'search called');
+      t.equal(typeof query, 'object', 'query generated');
+      t.equal(typeof cb, 'function', 'callback provided');
+      var filter = query.body.query.filtered.filter.bool.must[1];
+      t.ok(filter.hasOwnProperty('geo_shape'), 'shape query');
+      t.equal(filter.geo_shape.boundaries.shape.type, 'point', 'point type');
+      t.end();
+    });
+    var backend = new Backend( client, 'foo', 'bar' );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'shape-point' }, function(){} );
+  });
+
+  test('findAdminHeirachy() - shape-envelopes type', function(t) {
+    var client = mockClient( function( method, query, cb ){
+      t.equal(method, 'search', 'search called');
+      t.equal(typeof query, 'object', 'query generated');
+      t.equal(typeof cb, 'function', 'callback provided');
+      var filter = query.body.query.filtered.filter.bool.must[1];
+      t.ok(filter.hasOwnProperty('geo_shape'), 'shape query');
+      t.equal(filter.geo_shape.boundaries.shape.type, 'envelopes', 'envelopes type');
+      t.end();
+    });
+    var backend = new Backend( client, 'foo', 'bar' );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'shape-envelopes' }, function(){} );
+  });
+
   test('findAdminHeirachy() - invalid type', function(t) {
     var backend = new Backend( mockClient(function(){}), 'foo', 'bar' );
     backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'foo' }, function( err ){

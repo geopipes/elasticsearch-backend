@@ -1,7 +1,11 @@
 
 var merge                   = require('merge'),
     createBulkIndexStream   = require('./bulkIndexStream'),
-    reverseGeoQuery         = require('./query/geo_distance'),
+    queries = {
+      distance: require('./query/geo_distance'),
+      envelope: require('./query/geo_shape_envelope'),
+      point:    require('./query/geo_shape_point')
+    },
     extractor = {
       fields: require('./extractor/fields'),
       mget:   require('./extractor/mget'),
@@ -65,12 +69,12 @@ Backend.prototype.createPullStream = function(){
 
 // Find the nearest document to the supplied centroid
 Backend.prototype.reverseGeo = function( centroid, opts, cb ){
-  var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
+  var query = queries.distance( centroid, merge( { size: 1 }, opts || {} ) );
   this.search( query, opts, cb );
 };
 
 // Perform a fields only reverse geocode to retrieve the admin heirachy
-Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
+Backend.prototype.findAdminHeirachy = function( coords, opts, cb ){
 
   // default options
   if( !opts || 'object' !== typeof opts ){ opts = {}; }
@@ -82,12 +86,19 @@ Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
 
   // distance query (the default)
   if( opts.type === 'distance' ){
-    query = reverseGeoQuery( centroid, merge( { size: 1 }, opts ) );
+    query = queries.distance( coords, merge( { size: 1 }, opts ) );
   }
+  else if( opts.type === 'shape-point' ){
+    query = queries.point( coords, merge( { size: 1 }, opts ) );
+  }
+  else if( opts.type === 'shape-envelope' ){
+    query = queries.envelope( coords, merge( { size: 1 }, opts ) );
+  }
+  else return cb( 'invalid type' );
 
   // only include documents which contain valid admin values
-  if( opts.string === true ){
-    query.query.filtered.filter.bool.must.unshift({ exists: { field: fields } });
+  if( opts.strict === true ){
+    query.query.filtered.filter.bool.must.unshift({ exists: { field: opts.fields } });
   }
 
   // Only return fields related to admin hierarchy in results
