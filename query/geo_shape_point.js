@@ -21,8 +21,8 @@ module.exports = function( centroid, opts ){
     'shape': {
       'type': 'point',
       'coordinates': {
-        'lat': Number( centroid.lat ).toFixed(2), // @note: make filter cachable
-        'lon': Number( centroid.lon ).toFixed(2)  // precision max ~1.113km off
+        'lat': String( centroid.lat ),
+        'lon': String( centroid.lon )
       }
     }
   };
