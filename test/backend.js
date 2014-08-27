@@ -11,8 +11,8 @@ function mockClient( cb ){
     index:                cb.bind(this, 'index'),
     search:               cb.bind(this, 'search'),
     bulk:                 cb.bind(this, 'bulk')
-  }
-}
+  };
+};
 
 module.exports.backend.get = function(test, common) {
   test('get()', function(t) {
@@ -30,7 +30,7 @@ module.exports.backend.get = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.get( 1, null, function(){} );
   });
-}
+};
 
 module.exports.backend.mget = function(test, common) {
   test('mget()', function(t) {
@@ -48,7 +48,7 @@ module.exports.backend.mget = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.mget( [1], null, function(){} );
   });
-}
+};
 
 module.exports.backend.put = function(test, common) {
   test('put()', function(t) {
@@ -66,7 +66,7 @@ module.exports.backend.put = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.put( 1, 'hello', null, function(){} );
   });
-}
+};
 
 module.exports.backend.search = function(test, common) {
   test('search()', function(t) {
@@ -84,7 +84,7 @@ module.exports.backend.search = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.search( { query: 'hello' }, null, function(){} );
   });
-}
+};
 
 module.exports.backend.createPullStream = function(test, common) {
   test('createPullStream()', function(t) {
@@ -95,7 +95,7 @@ module.exports.backend.createPullStream = function(test, common) {
     t.equal(typeof stream._readableState, 'object', 'stream valid');
     t.end();
   });
-}
+};
 
 module.exports.backend.reverseGeo = function(test, common) {
   test('reverseGeo()', function(t) {
@@ -126,7 +126,7 @@ module.exports.backend.reverseGeo = function(test, common) {
     var backend = new Backend( client, 'foo', 'bar' );
     backend.reverseGeo( { lat: 1, lon: 1 }, { size: 2 }, function(){} );
   });
-}
+};
 
 
 module.exports.backend.findAdminHeirachy = function(test, common) {
@@ -167,15 +167,15 @@ module.exports.backend.findAdminHeirachy = function(test, common) {
     };
     backend.findAdminHeirachy( { lat: 1, lon: 1 }, opts, function(){} );
   });
-}
+};
 
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('backend: ' + name, testFunction)
+    return tape('backend: ' + name, testFunction);
   }
 
   for( var testCase in module.exports.backend ){
     module.exports.backend[testCase](test, common);
   }
-}
+};
