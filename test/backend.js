@@ -139,6 +139,8 @@ module.exports.backend.findAdminHeirachy = function(test, common) {
       t.equal(query.index, 'foo', 'query valid');
       t.equal(query.type, 'bar', 'query valid');
       t.equal(query.body.size, 1, 'query valid');
+      t.deepEqual(query.body.fields, ['admin0','admin1','admin2'], 'fields');
+      t.equal(query.body.query.filtered.filter.bool.must.length, 2, 'strict bool filter');
       t.end();
     });
 
@@ -152,11 +154,18 @@ module.exports.backend.findAdminHeirachy = function(test, common) {
       t.equal(typeof query, 'object', 'query generated');
       t.equal(typeof cb, 'function', 'callback provided');
       t.equal(query.body.size, 2, 'query valid');
+      t.deepEqual(query.body.fields, ['bing','bong'], 'fields');
+      t.equal(query.body.query.filtered.filter.bool.must.length, 1, 'no strict bool filter');
       t.end();
     });
 
     var backend = new Backend( client, 'foo', 'bar' );
-    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { size: 2 }, function(){} );
+    var opts = {
+      size: 2,
+      fields: ['bing','bong'],
+      strict: false
+    };
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, opts, function(){} );
   });
 }
 
