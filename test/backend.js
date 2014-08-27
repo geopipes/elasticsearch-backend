@@ -128,7 +128,6 @@ module.exports.backend.reverseGeo = function(test, common) {
   });
 };
 
-
 module.exports.backend.findAdminHeirachy = function(test, common) {
   test('findAdminHeirachy()', function(t) {
 
@@ -166,6 +165,27 @@ module.exports.backend.findAdminHeirachy = function(test, common) {
       strict: false
     };
     backend.findAdminHeirachy( { lat: 1, lon: 1 }, opts, function(){} );
+  });
+};
+
+module.exports.backend.findAdminHeirachyType = function(test, common) {
+  test('findAdminHeirachy() - distance type', function(t) {
+    var client = mockClient( function( method, query, cb ){
+      t.equal(method, 'search', 'search called');
+      t.equal(typeof query, 'object', 'query generated');
+      t.equal(typeof cb, 'function', 'callback provided');
+      t.ok(query.body.query.filtered.filter.bool.must[1].hasOwnProperty('geo_distance'), 'distance query');
+      t.end();
+    });
+    var backend = new Backend( client, 'foo', 'bar' );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, null, function(){} );
+  });
+  test('findAdminHeirachy() - invalid type', function(t) {
+    var backend = new Backend( mockClient(function(){}), 'foo', 'bar' );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'foo' }, function( err ){
+      t.equal(err, 'invalid type', 'emit error');
+      t.end();
+    });
   });
 };
 
