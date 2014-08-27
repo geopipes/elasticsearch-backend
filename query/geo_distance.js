@@ -11,7 +11,7 @@ module.exports = function( centroid, opts ){
     distance: opts.distance || '50km',
     size: opts.size || 1,
     field: opts.field || 'center_point'
-  }
+  };
 
   var query = baseQuery( centroid, options );
 
@@ -22,15 +22,15 @@ module.exports = function( centroid, opts ){
       'optimize_bbox': 'indexed',
       '_cache': true // Speed up duplicate queries. Memory impact?
     }
-  }
+  };
 
   filter.geo_distance[ options.field ] = {
     'lat': Number( centroid.lat ).toFixed(2), // @note: make filter cachable
     'lon': Number( centroid.lon ).toFixed(2)  // precision max ~1.113km off
-  }
+  };
 
   // Add geo_distance specific filter conditions
   query.query.filtered.filter.bool.must.push( filter );
 
   return query;
-}
+};
