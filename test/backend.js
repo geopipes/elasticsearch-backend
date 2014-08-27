@@ -12,7 +12,7 @@ function mockClient( cb ){
     search:               cb.bind(this, 'search'),
     bulk:                 cb.bind(this, 'bulk')
   };
-};
+}
 
 module.exports.backend.get = function(test, common) {
   test('get()', function(t) {
