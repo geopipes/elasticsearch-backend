@@ -71,16 +71,29 @@ Backend.prototype.reverseGeo = function( centroid, opts, cb ){
 
 // Perform a fields only reverse geocode to retrieve the admin heirachy
 Backend.prototype.findAdminHeirachy = function( centroid, opts, cb ){
-  var fields = [ 'admin0', 'admin1', 'admin2' ];
-  var query = reverseGeoQuery( centroid, merge( { size: 1 }, opts || {} ) );
+
+  // default options
+  if( !opts || 'object' !== typeof opts ){ opts = {}; }
+  if( !Array.isArray( opts.fields ) ){ opts.fields = [ 'admin0', 'admin1', 'admin2' ]; }
+  if( 'string' !== typeof opts.type ){ opts.type = 'distance'; }
+  if( 'boolean' !== typeof opts.strict ){ opts.strict = true; }
+
+  var query;
+
+  // distance query (the default)
+  if( opts.type === 'distance' ){
+    query = reverseGeoQuery( centroid, merge( { size: 1 }, opts ) );
+  }
 
   // only include documents which contain valid admin values
-  query.query.filtered.filter.bool.must.unshift({ exists: { field: fields } });
+  if( opts.string === true ){
+    query.query.filtered.filter.bool.must.unshift({ exists: { field: fields } });
+  }
 
   // Only return fields related to admin hierarchy in results
-  query.fields = fields;
+  query.fields = opts.fields;
 
-  this._search( query, opts, extractor.fields( fields, cb ) );
+  this._search( query, opts, extractor.fields( opts.fields, cb ) );
 };
 
 module.exports = Backend;
