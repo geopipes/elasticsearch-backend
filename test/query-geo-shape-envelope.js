@@ -13,7 +13,9 @@ module.exports.query.generate = function(test, common) {
     t.equal(must[0].geo_shape.boundaries.relation, 'intersects', 'relation');
     t.equal(must[0].geo_shape.boundaries.shape.type, 'envelope', 'shape type');
     var coords = must[0].geo_shape.boundaries.shape.coordinates;
-    t.deepEqual(coords, points, 'coordinates' );
+
+    // co-ordinates MUST be specified in Array syntax
+    t.deepEqual(coords, points, 'lon/lat');
     t.end();
   });
 };
@@ -21,7 +23,7 @@ module.exports.query.generate = function(test, common) {
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('reverse-geocode geo_distance query: ' + name, testFunction);
+    return tape('reverse-geocode geo_shape_envelope query: ' + name, testFunction);
   }
 
   for( var testCase in module.exports.query ){

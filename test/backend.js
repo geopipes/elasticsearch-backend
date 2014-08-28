@@ -207,18 +207,18 @@ module.exports.backend.findAdminHeirachyType = function(test, common) {
     backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'shape-point' }, function(){} );
   });
 
-  test('findAdminHeirachy() - shape-envelopes type', function(t) {
+  test('findAdminHeirachy() - shape-envelope type', function(t) {
     var client = mockClient( function( method, query, cb ){
       t.equal(method, 'search', 'search called');
       t.equal(typeof query, 'object', 'query generated');
       t.equal(typeof cb, 'function', 'callback provided');
       var filter = query.body.query.filtered.filter.bool.must[1];
       t.ok(filter.hasOwnProperty('geo_shape'), 'shape query');
-      t.equal(filter.geo_shape.boundaries.shape.type, 'envelopes', 'envelopes type');
+      t.equal(filter.geo_shape.boundaries.shape.type, 'envelope', 'envelope type');
       t.end();
     });
     var backend = new Backend( client, 'foo', 'bar' );
-    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'shape-envelopes' }, function(){} );
+    backend.findAdminHeirachy( { lat: 1, lon: 1 }, { type: 'shape-envelope' }, function(){} );
   });
 
   test('findAdminHeirachy() - invalid type', function(t) {

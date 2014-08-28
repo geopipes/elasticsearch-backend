@@ -20,10 +20,7 @@ module.exports = function( centroid, opts ){
     'relation': options.relation,
     'shape': {
       'type': 'point',
-      'coordinates': {
-        'lat': String( centroid.lat ),
-        'lon': String( centroid.lon )
-      }
+      'coordinates': [ centroid.lon, centroid.lat ]
     }
   };
 

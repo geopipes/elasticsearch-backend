@@ -13,8 +13,9 @@ module.exports.query.generate = function(test, common) {
     t.equal(must[0].geo_shape.boundaries.relation, 'intersects', 'relation');
     t.equal(must[0].geo_shape.boundaries.shape.type, 'point', 'shape type');
     var coords = must[0].geo_shape.boundaries.shape.coordinates;
-    t.equal(coords.lat, '1.1111', 'latitude');
-    t.equal(coords.lon, '1.2222', 'longitude');
+
+    // co-ordinates MUST be specified in Array syntax
+    t.deepEqual(coords, [1.2222,1.1111], 'lon/lat');
     t.end();
   });
 };
@@ -22,7 +23,7 @@ module.exports.query.generate = function(test, common) {
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
-    return tape('reverse-geocode geo_distance query: ' + name, testFunction);
+    return tape('reverse-geocode geo_shape_point query: ' + name, testFunction);
   }
 
   for( var testCase in module.exports.query ){
