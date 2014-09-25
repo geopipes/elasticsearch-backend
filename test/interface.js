@@ -59,6 +59,22 @@ module.exports.interface.reverseGeo = function(test, common) {
   });
 }
 
+module.exports.interface.queries = function(test, common) {
+  test('queries', function(t) {
+    t.equal(typeof Backend.queries, 'object', 'valid hash');
+    t.equal(Object.keys(Backend.queries).length, 3, 'export x queries');
+    t.end();
+  });
+}
+
+module.exports.interface.extractor = function(test, common) {
+  test('extractor', function(t) {
+    t.equal(typeof Backend.extractor, 'object', 'valid hash');
+    t.equal(Object.keys(Backend.extractor).length, 5, 'export x extractors');
+    t.end();
+  });
+}
+
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
