@@ -107,4 +107,8 @@ Backend.prototype.findAdminHeirachy = function( coords, opts, cb ){
   this._search( query, opts, extractor.fields( opts.fields, cb ) );
 };
 
+// export useful internals
+Backend.queries = queries;
+Backend.extractor = extractor;
+
 module.exports = Backend;
