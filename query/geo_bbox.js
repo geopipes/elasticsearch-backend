@@ -39,6 +39,6 @@ module.exports = function( centroid, opts ){
 
   // Add geo_distance specific filter conditions
   query.query.filtered.filter.bool.must.push( filter );
-
+  query.sort = [];
   return query;
 };
