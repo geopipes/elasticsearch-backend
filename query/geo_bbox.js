@@ -8,11 +8,11 @@ module.exports = function( centroid, opts ){
   if( !opts ){ opts = {}; }
 
   var options = {
-    top_left: {
+    top_right: {
       lat: Number( opts.bbox[0] ).toFixed(2),
       lon: Number( opts.bbox[1] ).toFixed(2)
     },
-    bottom_right: {
+    bottom_left: {
       lat: Number( opts.bbox[2] ).toFixed(2),
       lon: Number( opts.bbox[3] ).toFixed(2)
     },
@@ -27,13 +27,13 @@ module.exports = function( centroid, opts ){
   };
 
   filter.geo_bounding_box[ options.field ] = {
-    'top_left' : {
-      'lat': options.top_left.lat,
-      'lon': options.top_left.lon
+    'top_right' : {
+      'lat': options.top_right.lat,
+      'lon': options.top_right.lon
     },
-    'bottom_right' : {
-      'lat': options.bottom_right.lat,
-      'lon': options.bottom_right.lon
+    'bottom_left' : {
+      'lat': options.bottom_left.lat,
+      'lon': options.bottom_left.lon
     }
   };
 
