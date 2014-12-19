@@ -3,7 +3,7 @@ var merge                   = require('merge'),
     createBulkIndexStream   = require('./bulkIndexStream'),
     queries = {
       distance: require('./query/geo_distance'),
-      bbox: require('./query/geo_bbox'),
+      bbox:     require('./query/geo_bbox'),
       envelope: require('./query/geo_shape_envelope'),
       point:    require('./query/geo_shape_point')
     },
