@@ -23,7 +23,7 @@ module.exports = function( centroid, opts ){
 
   var filter = {
     'geo_bounding_box' : {
-      'pin.location': {
+      'location': {
         'top_left' : {
           'lat': options.top_left.lat,
           'lon': options.top_left.lon

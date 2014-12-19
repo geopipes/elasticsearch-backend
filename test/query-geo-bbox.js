@@ -11,10 +11,10 @@ module.exports.query.generate = function(test, common) {
     var must = q.query.filtered.filter.bool.must;
     
     t.equal(Array.isArray(must), true, 'correct bool filter');
-    t.equal(must[0]['geo_bounding_box']['pin.location']['top_left'].lat, '1.00', 'correct geo_bbox top_left filter value');
-    t.equal(must[0]['geo_bounding_box']['pin.location']['top_left'].lon, '1.00', 'correct geo_bbox top_left filter value');
-    t.equal(must[0]['geo_bounding_box']['pin.location']['bottom_right'].lat, '2.00', 'correct geo_bbox bottom_right filter value');
-    t.equal(must[0]['geo_bounding_box']['pin.location']['bottom_right'].lon, '2.00', 'correct geo_bbox bottom_right filter value');
+    t.equal(must[0]['geo_bounding_box']['location']['top_left'].lat, '1.00', 'correct geo_bbox top_left filter value');
+    t.equal(must[0]['geo_bounding_box']['location']['top_left'].lon, '1.00', 'correct geo_bbox top_left filter value');
+    t.equal(must[0]['geo_bounding_box']['location']['bottom_right'].lat, '2.00', 'correct geo_bbox bottom_right filter value');
+    t.equal(must[0]['geo_bounding_box']['location']['bottom_right'].lon, '2.00', 'correct geo_bbox bottom_right filter value');
     t.end();
   });
 }
