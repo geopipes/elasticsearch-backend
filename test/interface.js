@@ -62,7 +62,7 @@ module.exports.interface.reverseGeo = function(test, common) {
 module.exports.interface.queries = function(test, common) {
   test('queries', function(t) {
     t.equal(typeof Backend.queries, 'object', 'valid hash');
-    t.equal(Object.keys(Backend.queries).length, 3, 'export x queries');
+    t.equal(Object.keys(Backend.queries).length, 4, 'export x queries');
     t.end();
   });
 }

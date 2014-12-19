@@ -13,6 +13,7 @@ var tests = [
   require('./extractor-put.js'),
   require('./query-geobase.js'),
   require('./query-geo-distance.js'),
+  require('./query-geo-bbox.js'),
   require('./query-geohash-cell.js'),
   require('./query-geo-shape-point.js'),
   require('./query-geo-shape-envelope.js')
