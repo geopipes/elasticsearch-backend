@@ -16,23 +16,24 @@ module.exports = function( centroid, opts ){
       lat: Number( opts.bbox[2] ).toFixed(2),
       lon: Number( opts.bbox[3] ).toFixed(2)
     },
-    size: opts.size || 1
+    size: opts.size || 1,
+    field: opts.field || 'center_point'
   };
 
   var query = baseQuery( centroid, options );
 
   var filter = {
-    'geo_bounding_box' : {
-      'location': {
-        'top_left' : {
-          'lat': options.top_left.lat,
-          'lon': options.top_left.lon
-        },
-        'bottom_right' : {
-          'lat': options.bottom_right.lat,
-          'lon': options.bottom_right.lon
-        }
-      }
+    'geo_bounding_box' : {}
+  };
+
+  filter.geo_bounding_box[ options.field ] = {
+    'top_left' : {
+      'lat': options.top_left.lat,
+      'lon': options.top_left.lon
+    },
+    'bottom_right' : {
+      'lat': options.bottom_right.lat,
+      'lon': options.bottom_right.lon
     }
   };
 
