@@ -1,5 +1,6 @@
 
-// Reverse GeoCoding geo_distance Query
+// Reverse GeoCoding geo_bounding_box Query
+// @ref: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html
 
 var baseQuery = require('./reverse_geo_base');
 
@@ -9,8 +10,8 @@ module.exports = function( centroid, opts ){
 
   var options = {
     top_right: {
-      lat: Number( opts.bbox[0] ).toFixed(2),
-      lon: Number( opts.bbox[1] ).toFixed(2)
+      lat: Number( opts.bbox[0] ).toFixed(2), // @note: make filter cachable
+      lon: Number( opts.bbox[1] ).toFixed(2)  // precision max ~1.113km off
     },
     bottom_left: {
       lat: Number( opts.bbox[2] ).toFixed(2),
@@ -23,7 +24,9 @@ module.exports = function( centroid, opts ){
   var query = baseQuery( centroid, options );
 
   var filter = {
-    'geo_bounding_box' : {}
+    'geo_bounding_box' : {
+      '_cache': true // Speed up duplicate queries. Memory impact?
+    }
   };
 
   filter.geo_bounding_box[ options.field ] = {
@@ -39,6 +42,9 @@ module.exports = function( centroid, opts ){
 
   // Add geo_distance specific filter conditions
   query.query.filtered.filter.bool.must.push( filter );
+
+  // Remove sort condition
   query.sort = [];
+
   return query;
 };
