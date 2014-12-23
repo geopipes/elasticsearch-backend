@@ -9,14 +9,10 @@ module.exports = function( centroid, opts ){
   if( !opts ){ opts = {}; }
 
   var options = {
-    top_right: {
-      lat: Number( opts.bbox[0] ).toFixed(2), // @note: make filter cachable
-      lon: Number( opts.bbox[1] ).toFixed(2)  // precision max ~1.113km off
-    },
-    bottom_left: {
-      lat: Number( opts.bbox[2] ).toFixed(2),
-      lon: Number( opts.bbox[3] ).toFixed(2)
-    },
+    top   : Number( opts.bbox.top ).toFixed(2),   // @note: make filter cachable
+    right : Number( opts.bbox.right ).toFixed(2), // precision max ~1.113km off
+    bottom: Number( opts.bbox.bottom ).toFixed(2),
+    left  : Number( opts.bbox.left ).toFixed(2),
     size: opts.size || 1,
     field: opts.field || 'center_point'
   };
@@ -30,14 +26,10 @@ module.exports = function( centroid, opts ){
   };
 
   filter.geo_bounding_box[ options.field ] = {
-    'top_right' : {
-      'lat': options.top_right.lat,
-      'lon': options.top_right.lon
-    },
-    'bottom_left' : {
-      'lat': options.bottom_left.lat,
-      'lon': options.bottom_left.lon
-    }
+    'top'   : options.top,
+    'right' : options.right,
+    'bottom': options.bottom,
+    'left'  : options.left,
   };
 
   // Add geo_bounding_box specific filter conditions

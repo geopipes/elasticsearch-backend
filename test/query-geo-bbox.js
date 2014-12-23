@@ -6,15 +6,20 @@ module.exports.query = {};
 module.exports.query.generate = function(test, common) {
   test('generate', function(t) {
     var centroid = { lat: 1, lon: 1 };
-    var bbox = [1,1,2,2];
+    var bbox = {
+      top   : 1,
+      right : 1,
+      bottom: 2,
+      left  : 2
+    };
     var q = query(centroid, { bbox: bbox });
     var must = q.query.filtered.filter.bool.must;
     
     t.equal(Array.isArray(must), true, 'correct bool filter');
-    t.equal(must[0]['geo_bounding_box']['center_point']['top_right'].lat, '1.00', 'correct geo_bbox top_right filter value');
-    t.equal(must[0]['geo_bounding_box']['center_point']['top_right'].lon, '1.00', 'correct geo_bbox top_right filter value');
-    t.equal(must[0]['geo_bounding_box']['center_point']['bottom_left'].lat, '2.00', 'correct geo_bbox bottom_left filter value');
-    t.equal(must[0]['geo_bounding_box']['center_point']['bottom_left'].lon, '2.00', 'correct geo_bbox bottom_left filter value');
+    t.equal(must[0]['geo_bounding_box']['center_point']['top'], '1.00', 'correct geo_bbox top vertice filter value');
+    t.equal(must[0]['geo_bounding_box']['center_point']['right'], '1.00', 'correct geo_bbox right vertice filter value');
+    t.equal(must[0]['geo_bounding_box']['center_point']['bottom'], '2.00', 'correct geo_bbox bottom vertice filter value');
+    t.equal(must[0]['geo_bounding_box']['center_point']['left'], '2.00', 'correct geo_bbox left vertice filter value');
     t.equal(must[0]['geo_bounding_box']['_cache'], true, 'query cahing enabled');
     t.end();
   });
