@@ -1,6 +1,8 @@
 
 // Base Query for Reverse GeoCoding Queries
 
+var baseQuery = require('./geo_base');
+
 module.exports = function( centroid, opts ){
 
   if( !opts ){ opts = {}; }
@@ -9,28 +11,17 @@ module.exports = function( centroid, opts ){
     size: opts.size || 1
   }
   
-  var query = {
-    'query': {
-      'filtered': {
-        'query': {
-          'match_all': {}
-        },
-        'filter' : {
-          'bool': {
-            'must': []
-          }
-        }
-      }
-    },
-    'sort': [{
-      '_geo_distance': {
-        'center_point': centroid,
-        'order': 'asc',
-        'unit': 'km'
-      }
-    }],
-    'size': options.size
-  }
+  var query = baseQuery( options ); 
+
+  var sort = [{
+    '_geo_distance': {
+      'center_point': centroid,
+      'order': 'asc',
+      'unit': 'km'
+    }
+  }];
+
+  query.sort = sort;
 
   return query;
 }
