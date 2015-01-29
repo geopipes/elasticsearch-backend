@@ -17,6 +17,19 @@ module.exports.query.generate = function(test, common) {
   });
 }
 
+module.exports.query.generateWithNoCentroid = function(test, common) {
+  test('generate without centroid', function(t) {
+    var centroid = null;
+    var q = query(centroid, { distance: '999km' });
+    var must = q.query.filtered.filter.bool.must;
+    
+    t.equal(Array.isArray(must), true, 'correct bool filter');
+    t.equal(must.length, 0, 'no geo_distance filter set');
+
+    t.end();
+  });
+}
+
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
