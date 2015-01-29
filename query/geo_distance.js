@@ -16,7 +16,7 @@ module.exports = function( centroid, opts ){
   var query = baseQuery( options );
 
   if (centroid) {
-    query = baseQuery( centroid, options );
+    query = baseQueryWithCentroid( centroid, options );
 
     var filter = {
       'geo_distance' : {
