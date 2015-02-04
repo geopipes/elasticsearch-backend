@@ -22,7 +22,18 @@ module.exports = function( opts ){
         }
       }
     },
-    'size': options.size
+    'size': options.size,
+    'sort': [
+      "_score",
+      {
+        "_script": {
+          "script": "doc['multiplier'].value",
+          "type": "number",
+          "order": "desc"
+        }
+      }
+    ],
+    "track_scores": true
   }
 
   return query;
