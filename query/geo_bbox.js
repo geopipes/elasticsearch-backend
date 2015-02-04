@@ -36,5 +36,8 @@ module.exports = function( centroid, opts ){
   // Add geo_bounding_box specific filter conditions
   query.query.filtered.filter.bool.must.push( filter );
 
+  // Remove sort by distance condition
+  query.sort = baseQuery( options ).sort;
+
   return query;
 };
