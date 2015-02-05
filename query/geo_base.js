@@ -35,7 +35,6 @@ module.exports = function( opts ){
           "order": "desc"
         }
       },
-      ,
       {
         "_script": {
           "params": {
@@ -43,7 +42,7 @@ module.exports = function( opts ){
           },
           "script": "if (doc.containsKey('_type')) { "+
                     "type=doc['_type'].value; "+
-                    "return ( type in weights ) ? weights[ type ] : 0; }" +
+                    "return ( type in weights ) ? weights[ type ] : 0 }" +
                     "else { return 0 }",
           "type": "number",
           "order": "desc"
