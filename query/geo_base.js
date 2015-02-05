@@ -27,7 +27,7 @@ module.exports = function( opts ){
       "_score",
       {
         "_script": {
-          "script": "doc['multiplier'].value",
+          "script": "if (doc.containsKey('multiplier')) { return doc['multiplier'].value } else { return 0 }",
           "type": "number",
           "order": "desc"
         }
