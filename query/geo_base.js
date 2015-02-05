@@ -1,4 +1,4 @@
-
+var weights = require('pelias-model').weights
 // Base Query for GeoCoding Queries
 
 module.exports = function( opts ){
@@ -31,6 +31,19 @@ module.exports = function( opts ){
           "script": "if (doc.containsKey('"+ options.population + "'))" +
                     " { return doc['" + options.population + "'].value }" +
                     " else { return 0 }",
+          "type": "number",
+          "order": "desc"
+        }
+      },
+      ,
+      {
+        "_script": {
+          "params": {
+            "weights": weights
+          },
+          "script": "if (doc.containsKey('_type')) { "+
+                    "type=doc['_type'].value; "+
+                    "return ( type in weights ) ? weights[ type ] : 0;",
           "type": "number",
           "order": "desc"
         }
