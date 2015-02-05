@@ -28,7 +28,9 @@ module.exports = function( opts ){
       "_score",
       {
         "_script": {
-          "script": "if (doc.containsKey('"+ options.population + "')) { return doc['" + options.population + "'].value } else { return 0 }",
+          "script": "if (doc.containsKey('"+ options.population + "'))" +
+                    " { return doc['" + options.population + "'].value }" +
+                    " else { return 0 }",
           "type": "number",
           "order": "desc"
         }
