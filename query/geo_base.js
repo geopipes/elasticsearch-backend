@@ -6,7 +6,8 @@ module.exports = function( opts ){
   if( !opts ){ opts = {}; }
 
   var options = {
-    size: opts.size || 1
+    size: opts.size || 1,
+    population: opts.population || 'population'
   }
   
   var query = {
@@ -27,7 +28,7 @@ module.exports = function( opts ){
       "_score",
       {
         "_script": {
-          "script": "if (doc.containsKey('multiplier')) { return doc['multiplier'].value } else { return 0 }",
+          "script": "if (doc.containsKey('"+ options.population + "')) { return doc['" + options.population + "'].value } else { return 0 }",
           "type": "number",
           "order": "desc"
         }
@@ -35,6 +36,7 @@ module.exports = function( opts ){
     ],
     "track_scores": true
   }
+  // add weights for types as a sorting function
 
   return query;
 }
