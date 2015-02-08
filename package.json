@@ -28,8 +28,7 @@
   "dependencies": {
     "bun": "0.0.10",
     "merge": "^1.1.3",
-    "through2": "^0.5.1",
-    "pelias-model": "git://github.com/pelias/model#multiplier"
+    "through2": "^0.5.1"
   },
   "devDependencies": {
     "tape": "^2.13.4",
