@@ -1,3 +1,7 @@
+0.0.9
+  - added geo bounding box query support
+  - added geo bbox tests 
+  
 0.0.8 
   - basic queries
     - geo distance
