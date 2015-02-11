@@ -2,7 +2,8 @@
 // Reverse GeoCoding geo_bounding_box Query
 // @ref: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html
 
-var baseQuery = require('./reverse_geo_base');
+var baseQuery = require('./geo_base');
+var baseQueryWithCentroid = require('./reverse_geo_base');
 
 module.exports = function( centroid, opts ){
 
@@ -17,7 +18,7 @@ module.exports = function( centroid, opts ){
     field: opts.field || 'center_point'
   };
 
-  var query = baseQuery( centroid, options );
+  var query = centroid ? baseQueryWithCentroid( centroid, options ) : baseQuery( options );
 
   var filter = {
     'geo_bounding_box' : {

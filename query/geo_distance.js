@@ -1,7 +1,8 @@
 
 // Reverse GeoCoding geo_distance Query
 
-var baseQuery = require('./reverse_geo_base');
+var baseQuery = require('./geo_base');
+var baseQueryWithCentroid = require('./reverse_geo_base');
 
 module.exports = function( centroid, opts ){
 
@@ -12,25 +13,28 @@ module.exports = function( centroid, opts ){
     size: opts.size || 1,
     field: opts.field || 'center_point'
   };
+  var query = baseQuery( options );
 
-  var query = baseQuery( centroid, options );
+  if (centroid) {
+    query = baseQueryWithCentroid( centroid, options );
 
-  var filter = {
-    'geo_distance' : {
-      'distance': options.distance,
-      'distance_type': 'plane',
-      'optimize_bbox': 'indexed',
-      '_cache': true // Speed up duplicate queries. Memory impact?
-    }
-  };
+    var filter = {
+      'geo_distance' : {
+        'distance': options.distance,
+        'distance_type': 'plane',
+        'optimize_bbox': 'indexed',
+        '_cache': true // Speed up duplicate queries. Memory impact?
+      }
+    };
 
-  filter.geo_distance[ options.field ] = {
-    'lat': Number( centroid.lat ).toFixed(2), // @note: make filter cachable
-    'lon': Number( centroid.lon ).toFixed(2)  // precision max ~1.113km off
-  };
+    filter.geo_distance[ options.field ] = {
+      'lat': Number( centroid.lat ).toFixed(2), // @note: make filter cachable
+      'lon': Number( centroid.lon ).toFixed(2)  // precision max ~1.113km off
+    };
 
-  // Add geo_distance specific filter conditions
-  query.query.filtered.filter.bool.must.push( filter );
+    // Add geo_distance specific filter conditions
+    query.query.filtered.filter.bool.must.push( filter );
+  }
 
   return query;
 };
