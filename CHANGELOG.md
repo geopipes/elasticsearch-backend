@@ -1,3 +1,7 @@
+0.0.11
+  - sorting on _score by default
+  - sorting on _score and geo_distance for geo_distance queries
+  
 0.0.10
   - making centroid optional for geo_distance and geo_bbox
   - updating tests
