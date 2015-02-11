@@ -21,7 +21,7 @@ module.exports = function( centroid, opts ){
     }
   }];
 
-  query.sort = sort;
+  query.sort = query.sort.concat(sort);
 
   return query;
 }

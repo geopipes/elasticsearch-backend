@@ -7,7 +7,7 @@ module.exports = function( opts ){
 
   var options = {
     size: opts.size || 1
-  }
+  };
   
   var query = {
     'query': {
@@ -22,8 +22,12 @@ module.exports = function( opts ){
         }
       }
     },
-    'size': options.size
-  }
+    'size': options.size,
+    'sort': [
+      "_score"
+    ],
+    "track_scores": true
+  };
 
   return query;
 }
