@@ -22,7 +22,8 @@ module.exports = function( centroid, opts ){
 
   var filter = {
     'geo_bounding_box' : {
-      '_cache': true // Speed up duplicate queries. Memory impact?
+      '_cache': true, // Speed up duplicate queries. Memory impact?
+      'type': 'indexed'
     }
   };
 

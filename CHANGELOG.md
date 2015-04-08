@@ -1,3 +1,6 @@
+0.0.12
+  - switching type from memory (default) to 'indexed' on bbox queries
+
 0.0.11
   - sorting on _score by default
   - sorting on _score and geo_distance for geo_distance queries
