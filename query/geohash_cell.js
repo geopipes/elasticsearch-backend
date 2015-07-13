@@ -10,7 +10,8 @@ module.exports = function( centroid, opts ){
   var options = {
     distance: opts.distance || '50km',
     size: opts.size || 1,
-    field: opts.field || 'center_point'
+    field: opts.field || 'center_point',
+    sort: opts.sort || false
   }
 
   var query = baseQuery( centroid, options );
