@@ -1,7 +1,7 @@
 
 // Reverse GeoCoding geohash_cell Query
 
-var baseQuery = require('./reverse_geo_base');
+var baseQuery = require('./geo_base');
 
 module.exports = function( centroid, opts ){
 

@@ -22,6 +22,8 @@ module.exports.query.generate = function(test, common) {
     t.equal(must[0]['geo_bounding_box']['center_point']['left'], '2.00', 'correct geo_bbox left vertice filter value');
     t.equal(must[0]['geo_bounding_box']['_cache'], true, 'query caching enabled');
     t.equal(must[0]['geo_bounding_box']['type'], 'indexed', 'query type set to indexed');
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
+
     t.end();
   });
 };
@@ -45,6 +47,8 @@ module.exports.query.generateWithNoCentroid = function(test, common) {
     t.equal(must[0]['geo_bounding_box']['center_point']['left'], '2.00', 'correct geo_bbox left vertice filter value');
     t.equal(must[0]['geo_bounding_box']['_cache'], true, 'query caching enabled');
     t.equal(must[0]['geo_bounding_box']['type'], 'indexed', 'query type set to indexed');
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
+
     t.end();
   });
 };

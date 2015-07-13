@@ -2,7 +2,6 @@
 // Reverse GeoCoding geo_distance Query
 
 var baseQuery = require('./geo_base');
-var baseQueryWithCentroid = require('./reverse_geo_base');
 
 module.exports = function( centroid, opts ){
 
@@ -13,10 +12,9 @@ module.exports = function( centroid, opts ){
     size: opts.size || 1,
     field: opts.field || 'center_point'
   };
-  var query = baseQuery( options );
+  var query = baseQuery( centroid, options );
 
   if (centroid) {
-    query = baseQueryWithCentroid( centroid, options );
 
     var filter = {
       'geo_distance' : {

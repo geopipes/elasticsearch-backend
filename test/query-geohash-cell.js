@@ -11,6 +11,8 @@ module.exports.query.generate = function(test, common) {
     
     t.equal(Array.isArray(must), true, 'correct bool filter');
     t.equal(must[0]['geohash_cell']['neighbors'], true, 'correct geohash_cell filter');
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
+
     t.end();
   });
 }
