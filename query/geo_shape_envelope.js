@@ -1,7 +1,7 @@
 
 // Reverse GeoCoding geo_shape Query
 
-var baseQuery = require('./reverse_geo_base');
+var baseQuery = require('./geo_base');
 
 module.exports = function( coords, opts ){
 
@@ -13,7 +13,7 @@ module.exports = function( coords, opts ){
     field: opts.field || 'boundaries'
   };
 
-  var query = baseQuery( coords, options );
+  var query = baseQuery( null, options );
 
   var filter = { 'geo_shape' : {} };
   filter.geo_shape[ options.field ] = {

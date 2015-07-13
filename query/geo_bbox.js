@@ -3,7 +3,6 @@
 // @ref: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-geo-bounding-box-filter.html
 
 var baseQuery = require('./geo_base');
-var baseQueryWithCentroid = require('./reverse_geo_base');
 
 module.exports = function( centroid, opts ){
 
@@ -18,7 +17,7 @@ module.exports = function( centroid, opts ){
     field: opts.field || 'center_point'
   };
 
-  var query = centroid ? baseQueryWithCentroid( centroid, options ) : baseQuery( options );
+  var query = baseQuery( centroid, options );
 
   var filter = {
     'geo_bounding_box' : {
@@ -36,9 +35,6 @@ module.exports = function( centroid, opts ){
 
   // Add geo_bounding_box specific filter conditions
   query.query.filtered.filter.bool.must.push( filter );
-
-  // Remove sort by distance condition
-  query.sort = baseQuery( options ).sort;
 
   return query;
 };

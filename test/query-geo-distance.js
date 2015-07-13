@@ -13,6 +13,7 @@ module.exports.query.generate = function(test, common) {
     t.equal(must[0]['geo_distance']['distance'], '999km', 'correct geo_distance filter');
     t.equal(must[0]['geo_distance']['center_point'].lat, '1.00', 'correct geo_distance filter');
     t.equal(must[0]['geo_distance']['center_point'].lon, '1.00', 'correct geo_distance filter');
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
     t.end();
   });
 }
@@ -25,7 +26,7 @@ module.exports.query.generateWithNoCentroid = function(test, common) {
     
     t.equal(Array.isArray(must), true, 'correct bool filter');
     t.equal(must.length, 0, 'no geo_distance filter set');
-
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
     t.end();
   });
 }

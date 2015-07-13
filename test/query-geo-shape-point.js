@@ -12,9 +12,10 @@ module.exports.query.generate = function(test, common) {
     t.equal(Array.isArray(must), true, 'correct bool filter');
     t.equal(must[0].geo_shape.boundaries.relation, 'intersects', 'relation');
     t.equal(must[0].geo_shape.boundaries.shape.type, 'point', 'shape type');
-    var coords = must[0].geo_shape.boundaries.shape.coordinates;
+    t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
 
     // co-ordinates MUST be specified in Array syntax
+    var coords = must[0].geo_shape.boundaries.shape.coordinates;
     t.deepEqual(coords, [1.2222,1.1111], 'lon/lat');
     t.end();
   });
