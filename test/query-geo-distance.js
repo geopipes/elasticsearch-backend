@@ -19,7 +19,7 @@ module.exports.query.generate = function(test, common) {
 }
 
 module.exports.query.generateWithNoCentroid = function(test, common) {
-  test('generate without centroid', function(t) {
+  test('generate with null centroid', function(t) {
     var centroid = null;
     var q = query(centroid, { distance: '999km' });
     var must = q.query.filtered.filter.bool.must;
@@ -27,6 +27,15 @@ module.exports.query.generateWithNoCentroid = function(test, common) {
     t.equal(Array.isArray(must), true, 'correct bool filter');
     t.equal(must.length, 0, 'no geo_distance filter set');
     t.deepEqual( q.sort, ['_score'], 'should not sort results by distance from centroid' );
+    t.end();
+  });
+}
+
+module.exports.query.enableGeoSorting = function(test, common) {
+  test('geo sorting enabled', function(t) {
+    var centroid = { lat: 1, lon: 1 };
+    var q = query(centroid, { distance: '999km', sort: true });
+    t.equal(q.sort[1]['_geo_distance']['center_point'], centroid, 'correct sort condition');
     t.end();
   });
 }

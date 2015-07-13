@@ -17,6 +17,15 @@ module.exports.query.generate = function(test, common) {
   });
 }
 
+module.exports.query.enableGeoSorting = function(test, common) {
+  test('geo sorting enabled', function(t) {
+    var centroid = { lat: 1.1111, lon: 1.2222 };
+    var q = query(centroid, { distance: '999km', sort: true });
+    t.equal(q.sort[1]['_geo_distance']['center_point'], centroid, 'correct sort condition');
+    t.end();
+  });
+}
+
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {

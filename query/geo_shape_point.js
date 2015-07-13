@@ -10,7 +10,8 @@ module.exports = function( centroid, opts ){
   var options = {
     relation: opts.relation || 'intersects',
     size: opts.size || 1,
-    field: opts.field || 'boundaries'
+    field: opts.field || 'boundaries',
+    sort: opts.sort || false
   };
 
   var query = baseQuery( centroid, options );

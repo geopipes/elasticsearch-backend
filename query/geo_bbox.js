@@ -14,7 +14,8 @@ module.exports = function( centroid, opts ){
     bottom: Number( opts.bbox.bottom ).toFixed(2),
     left  : Number( opts.bbox.left ).toFixed(2),
     size: opts.size || 1,
-    field: opts.field || 'center_point'
+    field: opts.field || 'center_point',
+    sort: opts.sort || false
   };
 
   var query = baseQuery( centroid, options );

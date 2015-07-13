@@ -53,6 +53,21 @@ module.exports.query.generateWithNoCentroid = function(test, common) {
   });
 };
 
+module.exports.query.enableGeoSorting = function(test, common) {
+  test('geo sorting enabled', function(t) {
+    var centroid = { lat: 1, lon: 1 };
+    var bbox = {
+      top   : 1,
+      right : 1,
+      bottom: 2,
+      left  : 2
+    };
+    var q = query(centroid, { bbox: bbox, sort: true });
+    t.equal(q.sort[1]['_geo_distance']['center_point'], centroid, 'correct sort condition');
+    t.end();
+  });
+}
+
 module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
