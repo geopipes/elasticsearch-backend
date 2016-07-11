@@ -17,7 +17,7 @@ function mgetExtractor( cb ){
     if( 'object' == typeof resp && resp.hasOwnProperty('error') ) return cb( resp.error );
 
     // Check the response is valid ang contains at least one records
-    else if( 'object' == typeof resp && resp.hasOwnProperty('docs') && 
+    else if( 'object' == typeof resp && resp.hasOwnProperty('docs') &&
         Array.isArray( resp.docs ) && resp.docs.length ){
 
       var invalid = resp.docs.some( function( doc ){

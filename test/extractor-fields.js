@@ -26,11 +26,8 @@ module.exports.extractor.invalidFields = function(test, common) {
   test('constructor: invalidCallback', function(t) {
     var proxy = extractor( ['foo'] );
     t.equal(typeof proxy, 'function', 'function returned');
-    try { proxy(); }
-    catch (e){
-      t.equal(e.message, 'undefined is not a function', 'exception thrown');
-      t.end();
-    }
+    t.throws(proxy, /(undefined|cb) is not a function$/, 'exception thrown');
+    t.end();
   });
 }
 
